@@ -1,6 +1,7 @@
 package alexandre.cavaleiro.pdmchat.view
 
 import alexandre.cavaleiro.pdmchat.R
+import alexandre.cavaleiro.pdmchat.adapter.MessageAdapter
 import alexandre.cavaleiro.pdmchat.databinding.ActivityMainBinding
 import alexandre.cavaleiro.pdmchat.model.Contant.EXTRA_MESSAGE
 import alexandre.cavaleiro.pdmchat.model.MessageChat
@@ -34,11 +35,9 @@ class MainActivity : AppCompatActivity() {
     private val messageList: MutableList<MessageChat> = mutableListOf()
 
     //Adapter
-    private val messageAdapter: ArrayAdapter<String> by lazy {
-        ArrayAdapter(this,
-            android.R.layout.simple_list_item_1,
-            messageList.map{msg -> msg.destinatario
-            }
+    private val messageAdapter: MessageAdapter by lazy {
+        MessageAdapter(this,
+                messageList
         )
     }
 
@@ -62,13 +61,14 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 val messageChat = result.data?.getParcelableExtra<MessageChat>(EXTRA_MESSAGE)
                 messageChat?.let { msg ->
+                    msg.escritor = nomeUsuario
                     messageList.add(msg)
-                    messageAdapter.add(msg.destinatario)
                     messageAdapter.notifyDataSetChanged()
                 }
             }
         }
 
+        registerForContextMenu(amb.messageLv)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

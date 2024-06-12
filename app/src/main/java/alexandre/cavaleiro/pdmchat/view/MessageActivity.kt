@@ -27,7 +27,7 @@ class MessageActivity : AppCompatActivity() {
                 val msg = MessageChat(
                     escritor = "",
                     destinatario = destinatarioEt.text.toString(),
-                    conteudo = messageEt.text.toString(),
+                    conteudo = messageEt.text.toString(),// provavelmente tem que filtrar os 150c
                     dataHora = tmstp
                 )
 
