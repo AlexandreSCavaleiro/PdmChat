@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PdmChat</string>
+    <string name="add_new_message">add new message</string>
+    <string name="destinatario">Destinatario</string>
+    <string name="mensagem">Mensagem</string>
+    <string name="enviar_mensagem">Enviar mensagem</string>
+    <string name="mensagens">Mensagens</string>
+    <string name="envie_uma_mensagem">Envie uma Mensagem</string>
+    <string name="modifica_nome">Modifica Nome</string>
+</resources>
