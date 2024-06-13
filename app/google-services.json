@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "283919032848",
+    "project_id": "chatmessagespdm",
+    "storage_bucket": "chatmessagespdm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283919032848:android:a2e1e2750f5ff373b8e095",
+        "android_client_info": {
+          "package_name": "alexandre.cavaleiro.pdmchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtMxs5PMNIRfPwYxU1dryr3nV6VieLctg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
