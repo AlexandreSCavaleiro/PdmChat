@@ -85,6 +85,6 @@ class MessageChatDAOFirebase : MessageDAO {
     }
 
     private fun orderMessageList() {
-        messageChatList.sortBy { it.id }
+        messageChatList.sortBy {it.dataHora}
     }
 }
