@@ -38,10 +38,9 @@ class MessageAdapter(
         }
 
         val holder = messageTileView.tag as TileMessageHolder
-        val tmstpFormater = DateTimeFormatter.ofPattern("dd/MM/yy '|' HH:mm")
 
         holder.msgSenderTv.text = message.escritor
-        holder.msgTimeStampTv.text = message.dataHora.format(tmstpFormater)
+        holder.msgTimeStampTv.text = message.dataHora
         holder.msgContentTv.text = message.conteudo
 
         return messageTileView

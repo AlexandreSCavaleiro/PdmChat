@@ -50,17 +50,23 @@ class MessageChatDAOFirebase : MessageDAO {
 
         })
 
+
         messageChatFirebaseReference.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val messageMap = snapshot.getValue<Map<Int,MessageChat>>()
+                val message =snapshot.getValue()
+                if (message is HashMap<*, *>) {
 
-                messageChatList.clear()
+                    val messageMap = snapshot.getValue<Map<String, MessageChat>>()
 
-                messageMap?.values?.also {
-                    messageChatList.addAll(it)
+                    messageChatList.clear()
+
+                    messageMap?.values?.also {
+                        messageChatList.addAll(it)
+                    }
+
+                    orderMessageList()
                 }
 
-                orderMessageList()
             }
 
             override fun onCancelled(error: DatabaseError) {

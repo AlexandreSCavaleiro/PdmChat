@@ -2,17 +2,21 @@ package alexandre.cavaleiro.pdmchat.view
 
 import alexandre.cavaleiro.pdmchat.R
 import alexandre.cavaleiro.pdmchat.adapter.MessageAdapter
+import alexandre.cavaleiro.pdmchat.controller.MessageController
 import alexandre.cavaleiro.pdmchat.databinding.ActivityMainBinding
-import alexandre.cavaleiro.pdmchat.model.Contant.EXTRA_MESSAGE
+import alexandre.cavaleiro.pdmchat.model.Constant.EXTRA_MESSAGE
+import alexandre.cavaleiro.pdmchat.model.Constant.MESSAGE_ARRAY
 import alexandre.cavaleiro.pdmchat.model.MessageChat
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    //nome do usuario
+    //Nome do usuario
     private var nomeUsuario: String = ""
 
     //ARL
@@ -39,6 +43,38 @@ class MainActivity : AppCompatActivity() {
         MessageAdapter(this,
                 messageList
         )
+    }
+
+    //Controller
+    private val messageController: MessageController by lazy {
+        MessageController(this)
+    }
+    companion object{
+        const val GET_INTERVAL = 2000L
+        const val GET_MSG = 1
+    }
+
+    val updateMessageListHandler = object: Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+
+            if (msg.what == GET_MSG) {
+                messageController.getMessages(nomeUsuario)
+
+                sendMessageDelayed(
+                    obtainMessage().apply { what = GET_MSG },
+                    GET_INTERVAL
+                )
+            }else{
+                msg.data.getParcelableArray(MESSAGE_ARRAY)?.also { msgArray ->
+                    messageList.clear()
+                    msgArray.forEach {
+                        messageList.add(it as MessageChat)
+                    }
+                    messageAdapter.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,13 +98,18 @@ class MainActivity : AppCompatActivity() {
                 val messageChat = result.data?.getParcelableExtra<MessageChat>(EXTRA_MESSAGE)
                 messageChat?.let { msg ->
                     msg.escritor = nomeUsuario
-                    messageList.add(msg)
-                    messageAdapter.notifyDataSetChanged()
+                    messageController.insertMessage(msg)
                 }
             }
         }
 
         registerForContextMenu(amb.messageLv)
+
+        updateMessageListHandler.apply {
+            sendMessage(
+                obtainMessage().apply { what = GET_MSG }
+            )
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
