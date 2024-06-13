@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalDateTime
+import kotlin.random.Random
 
 class MessageActivity : AppCompatActivity() {
     private val amb : ActivityMessageBinding by lazy {
@@ -25,6 +26,7 @@ class MessageActivity : AppCompatActivity() {
             sendBt.setOnClickListener{
                 val tmstp = LocalDateTime.now()
                 val msg = MessageChat(
+                    id = generateId(),
                     escritor = "",
                     destinatario = destinatarioEt.text.toString(),
                     conteudo = messageEt.text.toString(),// provavelmente tem que filtrar os 150c
@@ -38,5 +40,9 @@ class MessageActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    private fun generateId(): Int{
+        return Random(System.currentTimeMillis()).nextInt()
     }
 }

@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 
 @Parcelize
 data class MessageChat(
+    var id: Int,
     var escritor: String,
     var destinatario: String,
     var conteudo: String,

@@ -18,11 +18,10 @@ class MessageAdapter(
 ): ArrayAdapter<MessageChat>(context, R.layout.tile_message, messageList) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View{
         val message = messageList[position]
-        var tmb: TileMessageBinding? = null
 
         var messageTileView = convertView
         if (messageTileView == null){
-            tmb = TileMessageBinding.inflate(
+             val tmb = TileMessageBinding.inflate(
                 context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater,
                 parent, false
             )
